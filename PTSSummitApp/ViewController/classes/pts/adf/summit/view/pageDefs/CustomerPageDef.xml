@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<pageDefinition xmlns="http://xmlns.oracle.com/adfm/uimodel" version="12.1.3.10.8" id="CustomerPageDef"
+                Package="pts.adf.summit.view.pageDefs">
+  <parameters/>
+  <executables>
+    <variableIterator id="variables"/>
+    <iterator Binds="Customers" RangeSize="1" DataControl="PTSSummitAppModuleDataControl" id="CustomersIterator"/>
+    <iterator Binds="OrdersForCustomer" RangeSize="-1" DataControl="PTSSummitAppModuleDataControl"
+              id="OrdersForCustomerIterator"/>
+    <iterator Binds="Countries" RangeSize="25" DataControl="PTSSummitAppModuleDataControl" id="CountriesIterator"/>
+    <iterator Binds="ItemsForOrder" RangeSize="25" DataControl="PTSSummitAppModuleDataControl"
+              id="ItemsForOrderIterator"/>
+    <iterator Binds="InventoriesForItem" RangeSize="-1" DataControl="PTSSummitAppModuleDataControl"
+              id="InventoriesForItemIterator"/>
+    <methodIterator Binds="findEmployeeById.result" DataControl="SummitRestService" RangeSize="25"
+                    BeanClass="pts.adf.summit.view.SummitRestService.findEmployeeById_Data_empss"
+                    id="findEmployeeByIdIterator"/>
+    <accessorIterator MasterBinding="findEmployeeByIdIterator" Binds="emps" RangeSize="25"
+                      DataControl="SummitRestService"
+                      BeanClass="pts.adf.summit.view.SummitRestService.findEmployeeById_Data_emps" id="empsIterator"/>
+  </executables>
+  <bindings>
+    <attributeValues IterBinding="CustomersIterator" id="Id">
+      <AttrNames>
+        <Item Value="Id"/>
+      </AttrNames>
+    </attributeValues>
+    <list IterBinding="CustomersIterator" StaticList="false" Uses="LOV_CreditRatingId" id="CreditRatingId"
+          DTSupportsMRU="false" SelectItemValueMode="ListObject"/>
+    <attributeValues IterBinding="CustomersIterator" id="Rating">
+      <AttrNames>
+        <Item Value="Rating"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="CustomersIterator" id="Phone">
+      <AttrNames>
+        <Item Value="Phone"/>
+      </AttrNames>
+    </attributeValues>
+    <listOfValues IterBinding="CustomersIterator" StaticList="false" Uses="LOV_SalesRepId" id="SalesRepId"/>
+    <attributeValues IterBinding="CustomersIterator" id="SalesRepLastName">
+      <AttrNames>
+        <Item Value="SalesRepLastName"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="CustomersIterator" id="Rating12">
+      <AttrNames>
+        <Item Value="Rating"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="CustomersIterator" id="Address">
+      <AttrNames>
+        <Item Value="Address"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="CustomersIterator" id="City">
+      <AttrNames>
+        <Item Value="City"/>
+      </AttrNames>
+    </attributeValues>
+    <list IterBinding="CustomersIterator" StaticList="false" Uses="LOV_State" id="State" DTSupportsMRU="false"
+          SelectItemValueMode="ListObject"/>
+    <list IterBinding="CustomersIterator" StaticList="false" Uses="LOV_CountryId" id="CountryId" DTSupportsMRU="false"
+          SelectItemValueMode="ListObject"/>
+    <attributeValues IterBinding="CustomersIterator" id="ZipCode">
+      <AttrNames>
+        <Item Value="ZipCode"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="CustomersIterator" id="Comments">
+      <AttrNames>
+        <Item Value="Comments"/>
+      </AttrNames>
+    </attributeValues>
+    <tree IterBinding="OrdersForCustomerIterator" id="OrdersForCustomer">
+      <nodeDefinition DefName="pts.adf.summit.model.views.SOrdView" Name="OrdersForCustomer0">
+        <AttrNames>
+          <Item Value="Id"/>
+          <Item Value="DateOrdered"/>
+          <Item Value="DateShipped"/>
+          <Item Value="Total"/>
+          <Item Value="PaymentTypeId"/>
+          <Item Value="OrderFilled"/>
+          <Item Value="SalesRepLastName"/>
+        </AttrNames>
+      </nodeDefinition>
+    </tree>
+    <tree IterBinding="CountriesIterator" id="Countries">
+      <nodeDefinition DefName="pts.adf.summit.model.views.SCountriesView" Name="Countries0">
+        <AttrNames>
+          <Item Value="Country"/>
+        </AttrNames>
+        <Accessors>
+          <Item Value="SCustomerView"/>
+        </Accessors>
+      </nodeDefinition>
+      <nodeDefinition DefName="pts.adf.summit.model.views.SCustomerView" Name="Countries1"
+                      TargetIterator="${bindings.CustomersIterator}">
+        <AttrNames>
+          <Item Value="Name"/>
+        </AttrNames>
+      </nodeDefinition>
+    </tree>
+    <attributeValues IterBinding="CustomersIterator" id="Name">
+      <AttrNames>
+        <Item Value="Name"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="CountriesIterator" id="TotalCustomers">
+      <AttrNames>
+        <Item Value="TotalCustomers"/>
+      </AttrNames>
+    </attributeValues>
+    <action IterBinding="OrdersForCustomerIterator" id="CreateInsert"
+            InstanceName="PTSSummitAppModuleDataControl.OrdersForCustomer" DataControl="PTSSummitAppModuleDataControl"
+            RequiresUpdateModel="true" Action="createInsertRow"/>
+    <action IterBinding="OrdersForCustomerIterator" id="Delete"
+            InstanceName="PTSSummitAppModuleDataControl.OrdersForCustomer" DataControl="PTSSummitAppModuleDataControl"
+            RequiresUpdateModel="false" Action="removeCurrentRow"/>
+    <attributeValues IterBinding="OrdersForCustomerIterator" id="OrderId">
+      <AttrNames>
+        <Item Value="Id"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="OrdersForCustomerIterator" id="DateOrdered">
+      <AttrNames>
+        <Item Value="DateOrdered"/>
+      </AttrNames>
+    </attributeValues>
+    <listOfValues IterBinding="OrdersForCustomerIterator" StaticList="false" Uses="LOV_SalesRepId" id="SalesRepId1"/>
+    <attributeValues IterBinding="OrdersForCustomerIterator" id="SalesRepLastName1">
+      <AttrNames>
+        <Item Value="SalesRepLastName"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="OrdersForCustomerIterator" id="DateShipped">
+      <AttrNames>
+        <Item Value="DateShipped"/>
+      </AttrNames>
+    </attributeValues>
+    <list IterBinding="OrdersForCustomerIterator" StaticList="false" Uses="LOV_PaymentTypeId" id="PaymentTypeId"
+          DTSupportsMRU="false" SelectItemValueMode="ListObject"/>
+    <list IterBinding="OrdersForCustomerIterator" StaticList="false" Uses="LOV_OrderFilled" id="OrderFilled"
+          DTSupportsMRU="false" SelectItemValueMode="ListObject"/>
+    <attributeValues IterBinding="OrdersForCustomerIterator" id="Total">
+      <AttrNames>
+        <Item Value="Total"/>
+      </AttrNames>
+    </attributeValues>
+    <tree IterBinding="ItemsForOrderIterator" id="ItemsForOrder">
+      <nodeDefinition DefName="pts.adf.summit.model.views.SItemView" Name="ItemsForOrder0">
+        <AttrNames>
+          <Item Value="ImageNameFromDB"/>
+          <Item Value="ProductId"/>
+          <Item Value="ProductShortDesc"/>
+          <Item Value="ProductName"/>
+          <Item Value="Price"/>
+          <Item Value="Quantity"/>
+          <Item Value="ItemTotal"/>
+        </AttrNames>
+      </nodeDefinition>
+    </tree>
+    <action IterBinding="ItemsForOrderIterator" id="CreateInsertItemForOrder"
+            InstanceName="PTSSummitAppModuleDataControl.ItemsForOrder" DataControl="PTSSummitAppModuleDataControl"
+            RequiresUpdateModel="true" Action="createInsertRow"/>
+    <methodAction IterBinding="ItemsForOrderIterator" id="deleteOrderItem" RequiresUpdateModel="true"
+                  Action="invokeMethod" MethodName="deleteOrderItem" IsViewObjectMethod="false"
+                  DataControl="PTSSummitAppModuleDataControl" InstanceName="bindings.ItemsForOrderIterator.currentRow"
+                  IsLocalObjectReference="true"
+                  ReturnName="data.PTSSummitAppModuleDataControl.methodResults.deleteOrderItem_deleteOrderItem_deleteOrderItem_result"/>
+    <action id="Commit" RequiresUpdateModel="true" Action="commitTransaction"
+            DataControl="PTSSummitAppModuleDataControl"/>
+    <action id="Rollback" RequiresUpdateModel="false" Action="rollbackTransaction"
+            DataControl="PTSSummitAppModuleDataControl"/>
+    <tree IterBinding="InventoriesForItemIterator" id="InventoriesForItem">
+      <nodeDefinition DefName="pts.adf.summit.model.views.SInventoryView" Name="InventoriesForItem0">
+        <AttrNames>
+          <Item Value="WarehouseLatitude"/>
+          <Item Value="WarehouseLongitude"/>
+          <Item Value="AmountInStock"/>
+          <Item Value="WarehouseCity"/>
+        </AttrNames>
+      </nodeDefinition>
+    </tree>
+    <attributeValues IterBinding="InventoriesForItemIterator" id="ProductId">
+      <AttrNames>
+        <Item Value="ProductId"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="InventoriesForItemIterator" id="ProductName">
+      <AttrNames>
+        <Item Value="ProductName"/>
+      </AttrNames>
+    </attributeValues>
+    <tree IterBinding="OrdersForCustomerIterator" id="OrdersForCustomer1" ChangeEventPolicy="ppr">
+      <nodeDefinition DefName="pts.adf.summit.model.views.SOrdView" Name="OrdersForCustomer1">
+        <AttrNames>
+          <Item Value="Total"/>
+          <Item Value="DateOrdered"/>
+          <Item Value="TimeToShip"/>
+          <Item Value="SalesRepLastName"/>
+        </AttrNames>
+      </nodeDefinition>
+    </tree>
+    <attributeValues IterBinding="CustomersIterator" id="OrderAverage">
+      <AttrNames>
+        <Item Value="OrderAverage"/>
+      </AttrNames>
+    </attributeValues>
+    <methodAction id="findEmployeeById" RequiresUpdateModel="true" Action="invokeMethod" MethodName="findEmployeeById"
+                  IsViewObjectMethod="false" DataControl="SummitRestService" InstanceName="data.SummitRestService"
+                  ReturnName="data.SummitRestService.methodResults.findEmployeeById_SummitRestService_findEmployeeById_result">
+      <NamedData NDName="empId" NDValue="#{bindings.SalesRepId.inputValue}" NDType="java.lang.String"/>
+    </methodAction>
+    <attributeValues IterBinding="empsIterator" id="userid">
+      <AttrNames>
+        <Item Value="userid"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="empsIterator" id="firstName">
+      <AttrNames>
+        <Item Value="firstName"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="empsIterator" id="lastName">
+      <AttrNames>
+        <Item Value="lastName"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="empsIterator" id="startDate">
+      <AttrNames>
+        <Item Value="startDate"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="empsIterator" id="email">
+      <AttrNames>
+        <Item Value="email"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="empsIterator" id="salary">
+      <AttrNames>
+        <Item Value="salary"/>
+      </AttrNames>
+    </attributeValues>
+    <attributeValues IterBinding="empsIterator" id="commissionPct">
+      <AttrNames>
+        <Item Value="commissionPct"/>
+      </AttrNames>
+    </attributeValues>
+  </bindings>
+</pageDefinition>

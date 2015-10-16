@@ -1,0 +1,736 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE html>
+<f:view xmlns:f="http://java.sun.com/jsf/core" xmlns:af="http://xmlns.oracle.com/adf/faces/rich"
+        xmlns:dvt="http://xmlns.oracle.com/dss/adf/faces">
+    <af:document title="Customer.jsf" id="d1">
+        <af:messages id="m2"/>
+        <af:form id="f1">
+            <af:pageTemplate viewId="/oracle/templates/tabletFirstTemplate.jspx" id="pt1">
+                <f:facet name="header">
+                    <af:link id="l1"/>
+                </f:facet>
+                <f:facet name="status">
+                    <af:menuBar id="mb1">
+                        <af:menu text="User" id="m1">
+                            <af:goMenuItem text="Preferences" id="gmi1"/>
+                            <af:goMenuItem text="Help" id="gmi2"/>
+                            <af:goMenuItem text="About" id="gmi3"/>
+                        </af:menu>
+                    </af:menuBar>
+                </f:facet>
+                <f:facet name="appNav"/>
+                <f:facet name="globalLinks">
+                    <af:toolbar id="t5" visible="#{viewScope.section eq 'customers'}"
+                                partialTriggers="::cBodFDC:sdi2 ::cBodFDC:sdi3 ::cBodFDC:sdi4 l1">
+                        <af:button actionListener="#{bindings.Commit.execute}" text="Commit"
+                                   disabled="false" id="b7"/>
+                        <af:button actionListener="#{bindings.Rollback.execute}" text="Rollback"
+                                   disabled="false" immediate="true" id="b8">
+                            <af:resetActionListener/>
+                        </af:button>
+                        <af:group id="g1">
+                            <af:button text="Print" id="b9" icon="/images/icons/print_ena.png"/>
+                        </af:group>
+                    </af:toolbar>
+                </f:facet>
+                <f:facet name="footer">
+                    <af:navigationPane hint="bar" id="np1">
+                        <af:commandNavigationItem id="ni1" text="About Oracle" destination="https://www.oracle.com"
+                                                  targetFrame="_blank"/>
+                        <af:commandNavigationItem id="ni2" text="Contact us" targetFrame="_blank"
+                                                  destination="http://www.oracle.com"/>
+                    </af:navigationPane>
+                </f:facet>
+                <f:facet name="center">
+                    <af:panelSpringboard id="ps1" displayMode="grid">
+                        <af:showDetailItem text="Customer Management" id="sdi2" inflexibleHeight="200"
+                                           icon="/images/customersIconNormalState.png">
+                            <af:panelGridLayout id="pgl1" partialTriggers="lv1:of2">
+                                <af:gridRow marginTop="5px" height="80px" id="gr1">
+                                    <af:gridCell marginStart="5px" width="210px" id="gc1"/>
+                                    <af:gridCell marginStart="5px" width="25%" id="gc2">
+                                        <af:image source="/images/logos/#{bindings.Id.inputValue}.png" id="i3"/>
+                                    </af:gridCell>
+                                    <af:gridCell marginStart="5px" width="75%" marginEnd="5px" id="gc3">
+                                        <af:outputText value="#{bindings.Name.inputValue}"
+                                                       shortDesc="#{bindings.Name.hints.tooltip}" id="ot6"
+                                                       inlineStyle="font-size:x-large; font-weight:bold;"/>
+                                    </af:gridCell>
+                                </af:gridRow>
+                                <af:gridRow marginTop="5px" height="auto" marginBottom="5px" id="gr2">
+                                    <af:gridCell marginStart="5px" width="210px" id="gc4">
+                                        <af:panelAccordion discloseMany="false" id="pa1" styleClass="AFStrechWidth">
+                                            <af:showDetailItem id="pane1" text="Text to Customers" disclosed="true">
+                                                <af:listView value="#{bindings.Countries.treeModel}" var="item"
+                                                             emptyText="#{bindings.Countries.viewable ? 'No data to display.' : 'Access Denied.'}"
+                                                             fetchSize="#{bindings.Countries.rangeSize}" id="lv1"
+                                                             selection="single"
+                                                             selectionListener="#{bindings.Countries.treeModel.makeCurrent}">
+                                                    <af:listItem id="li1">
+                                                        <af:panelGroupLayout layout="horizontal" id="pgl6">
+                                                            <f:facet name="separator">
+                                                                <af:spacer width="10" id="s7"/>
+                                                            </f:facet>
+                                                            <af:outputFormatted value="#{item.bindings.Name.inputValue}"
+                                                                                id="of1"/>
+                                                        </af:panelGroupLayout>
+                                                    </af:listItem>
+                                                    <f:facet name="groupHeaderStamp">
+                                                        <af:listItem id="li2" inlineStyle="text-align:left">
+                                                            <af:panelGroupLayout layout="horizontal" id="pgl7">
+                                                                <f:facet name="separator">
+                                                                    <af:spacer width="10" id="s8"/>
+                                                                </f:facet>
+                                                                <af:image source="/images/flags/#{item.bindings.Country.inputValue}.png"
+                                                                          id="i2"/>
+                                                                <af:spacer width="10" height="10" id="s9"/>
+                                                                <af:link id="of2"
+                                                                         text="#{item.bindings.Country.inputValue} (#{bindings.TotalCustomers.inputValue})"
+                                                                         partialSubmit="true"/>
+                                                            </af:panelGroupLayout>
+                                                        </af:listItem>
+                                                    </f:facet>
+                                                </af:listView>
+                                            </af:showDetailItem>
+                                        </af:panelAccordion>
+                                    </af:gridCell>
+                                    <af:gridCell marginStart="5px" columnSpan="2" marginEnd="5px" id="gc5" width="100%">
+                                        <af:panelGroupLayout id="pgl2">
+                                            <af:panelBox text="General information" id="pb1" clientComponent="true">
+                                                <f:facet name="toolbar"/>
+                                                <af:panelFormLayout id="pfl1" rows="2">
+                                                    <af:panelGroupLayout id="pgl3" layout="horizontal">
+                                                        <af:spacer width="10" height="10" id="s1"/>
+                                                        <af:panelLabelAndMessage label="Id" id="plam1">
+                                                            <af:inputText value="#{bindings.Id.inputValue}"
+                                                                          required="#{bindings.Id.hints.mandatory}"
+                                                                          columns="#{bindings.Id.hints.displayWidth}"
+                                                                          maximumLength="#{bindings.Id.hints.precision}"
+                                                                          shortDesc="#{bindings.Id.hints.tooltip}"
+                                                                          id="it1">
+                                                                <f:validator binding="#{bindings.Id.validator}"/>
+                                                                <af:convertNumber groupingUsed="false"
+                                                                                  pattern="#{bindings.Id.format}"/>
+                                                            </af:inputText>
+                                                        </af:panelLabelAndMessage>
+                                                        <af:spacer width="100" height="10" id="s2"/>
+                                                        <af:selectOneChoice value="#{bindings.CreditRatingId.inputValue}"
+                                                                            label="#{bindings.CreditRatingId.label}"
+                                                                            required="#{bindings.CreditRatingId.hints.mandatory}"
+                                                                            shortDesc="#{bindings.CreditRatingId.hints.tooltip}"
+                                                                            id="soc1">
+                                                            <f:selectItems value="#{bindings.CreditRatingId.items}"
+                                                                           id="si1"/>
+                                                            <f:validator binding="#{bindings.CreditRatingId.validator}"/>
+                                                        </af:selectOneChoice>
+                                                        <af:spacer width="100" height="10" id="s3"/>
+                                                        <dvt:ratingGauge id="ratingGauge1" minimum="0" maximum="4"
+                                                                         value="#{bindings.Rating12.inputValue}"
+                                                                         shape="star"/>
+                                                    </af:panelGroupLayout>
+                                                    <af:panelGroupLayout id="pgl4" layout="horizontal">
+                                                        <af:image source="/images/call_29.png" id="i1"/>
+                                                        <af:inputText value="#{bindings.Phone.inputValue}"
+                                                                      required="#{bindings.Phone.hints.mandatory}"
+                                                                      columns="#{bindings.Phone.hints.displayWidth}"
+                                                                      maximumLength="#{bindings.Phone.hints.precision}"
+                                                                      shortDesc="#{bindings.Phone.hints.tooltip}"
+                                                                      id="it3">
+                                                            <f:validator binding="#{bindings.Phone.validator}"/>
+                                                        </af:inputText>
+                                                        <af:spacer width="10" height="10" id="s4"/>
+                                                        <af:inputListOfValues id="salesRepIdId"
+                                                                              popupTitle="Search and Select: #{bindings.SalesRepId.hints.label}"
+                                                                              value="#{bindings.SalesRepId.inputValue}"
+                                                                              label="#{bindings.SalesRepId.hints.label}"
+                                                                              model="#{bindings.SalesRepId.listOfValuesModel}"
+                                                                              required="#{bindings.SalesRepId.hints.mandatory}"
+                                                                              columns="#{bindings.SalesRepId.hints.displayWidth}"
+                                                                              shortDesc="#{bindings.SalesRepId.hints.tooltip}">
+                                                            <f:validator binding="#{bindings.SalesRepId.validator}"/>
+                                                            <af:convertNumber groupingUsed="false"
+                                                                              pattern="#{bindings.SalesRepId.format}"/>
+                                                        </af:inputListOfValues>
+                                                        <af:spacer width="10" height="10" id="s5"/>
+                                                        <af:inputText value="#{bindings.SalesRepLastName.inputValue}"
+                                                                      label="#{bindings.SalesRepLastName.hints.label}"
+                                                                      required="#{bindings.SalesRepLastName.hints.mandatory}"
+                                                                      columns="#{bindings.SalesRepLastName.hints.displayWidth}"
+                                                                      maximumLength="#{bindings.SalesRepLastName.hints.precision}"
+                                                                      shortDesc="#{bindings.SalesRepLastName.hints.tooltip}"
+                                                                      id="it4">
+                                                            <f:validator binding="#{bindings.SalesRepLastName.validator}"/>
+                                                        </af:inputText>
+                                                        <af:spacer width="10" height="10" id="s6"/>
+                                                        <af:link text="link 1" id="l2">
+                                                            <af:setActionListener from="#{bindings.SalesRepId.inputValue}"
+                                                                                  to="#{pageFlowScope.salesRepId}"/>
+                                                        </af:link>
+                                                    </af:panelGroupLayout>
+                                                </af:panelFormLayout>
+                                            </af:panelBox>
+                                            <af:panelBox text="Address" id="pb2">
+                                                <af:panelFormLayout id="pfl2" rows="3">
+                                                    <af:inputText value="#{bindings.Address.inputValue}"
+                                                                  label="#{bindings.Address.hints.label}"
+                                                                  required="#{bindings.Address.hints.mandatory}"
+                                                                  columns="40"
+                                                                  maximumLength="#{bindings.Address.hints.precision}"
+                                                                  shortDesc="#{bindings.Address.hints.tooltip}" id="it2"
+                                                                  wrap="soft">
+                                                        <f:validator binding="#{bindings.Address.validator}"/>
+                                                    </af:inputText>
+                                                    <af:inputText value="#{bindings.City.inputValue}"
+                                                                  label="#{bindings.City.hints.label}"
+                                                                  required="#{bindings.City.hints.mandatory}"
+                                                                  columns="#{bindings.City.hints.displayWidth}"
+                                                                  maximumLength="#{bindings.City.hints.precision}"
+                                                                  shortDesc="#{bindings.City.hints.tooltip}" id="it5">
+                                                        <f:validator binding="#{bindings.City.validator}"/>
+                                                    </af:inputText>
+                                                    <af:selectOneChoice value="#{bindings.State.inputValue}"
+                                                                        label="#{bindings.State.label}"
+                                                                        required="#{bindings.State.hints.mandatory}"
+                                                                        shortDesc="#{bindings.State.hints.tooltip}"
+                                                                        id="soc2">
+                                                        <f:selectItems value="#{bindings.State.items}" id="si2"/>
+                                                        <f:validator binding="#{bindings.State.validator}"/>
+                                                    </af:selectOneChoice>
+                                                    <af:selectOneChoice value="#{bindings.CountryId.inputValue}"
+                                                                        label="#{bindings.CountryId.label}"
+                                                                        required="#{bindings.CountryId.hints.mandatory}"
+                                                                        shortDesc="#{bindings.CountryId.hints.tooltip}"
+                                                                        id="soc3">
+                                                        <f:selectItems value="#{bindings.CountryId.items}" id="si3"/>
+                                                        <f:validator binding="#{bindings.CountryId.validator}"/>
+                                                    </af:selectOneChoice>
+                                                    <af:inputText value="#{bindings.ZipCode.inputValue}"
+                                                                  label="#{bindings.ZipCode.hints.label}"
+                                                                  required="#{bindings.ZipCode.hints.mandatory}"
+                                                                  columns="20"
+                                                                  maximumLength="#{bindings.ZipCode.hints.precision}"
+                                                                  shortDesc="#{bindings.ZipCode.hints.tooltip}"
+                                                                  id="it6">
+                                                        <f:validator binding="#{bindings.ZipCode.validator}"/>
+                                                    </af:inputText>
+                                                    <af:link id="l3" icon="/images/location1.png"
+                                                             destination="http://maps.google.com/maps?q=#{bindings.Address.inputValue}+#{bindings.City.inputValue}+#{bindings.State.inputValue}+#{bindings.ZipCode.inputValue}"
+                                                             targetFrame="_blank"/>
+                                                </af:panelFormLayout>
+                                                <f:facet name="toolbar"/>
+                                            </af:panelBox>
+                                            <af:panelBox text="Comments" id="pb3" disclosed="false">
+                                                <af:panelFormLayout id="pfl3">
+                                                    <af:inputText value="#{bindings.Comments.inputValue}"
+                                                                  label="#{bindings.Comments.hints.label}"
+                                                                  required="#{bindings.Comments.hints.mandatory}"
+                                                                  columns="123"
+                                                                  maximumLength="#{bindings.Comments.hints.precision}"
+                                                                  shortDesc="#{bindings.Comments.hints.tooltip}"
+                                                                  id="it7" rows="3" wrap="hard">
+                                                        <f:validator binding="#{bindings.Comments.validator}"/>
+                                                    </af:inputText>
+                                                </af:panelFormLayout>
+                                                <f:facet name="toolbar"/>
+                                            </af:panelBox>
+                                            <af:panelBox text="Orders" id="pb4">
+                                                <af:panelGroupLayout id="pgl5" layout="scroll">
+                                                    <af:panelCollection id="pc1" styleClass="AFStretchWidth">
+                                                        <af:table value="#{bindings.OrdersForCustomer.collectionModel}"
+                                                                  var="row"
+                                                                  rows="#{bindings.OrdersForCustomer.rangeSize}"
+                                                                  emptyText="#{bindings.OrdersForCustomer.viewable ? 'No data to display.' : 'Access Denied.'}"
+                                                                  rowBandingInterval="0"
+                                                                  selectedRowKeys="#{bindings.OrdersForCustomer.collectionModel.selectedRow}"
+                                                                  selectionListener="#{bindings.OrdersForCustomer.collectionModel.makeCurrent}"
+                                                                  rowSelection="single"
+                                                                  fetchSize="#{bindings.OrdersForCustomer.rangeSize}"
+                                                                  id="t1" columnStretching="last" autoHeightRows="4"
+                                                                  partialTriggers="::b1 ::b2 ::b3 ::b4">
+                                                            <af:column sortProperty="#{bindings.OrdersForCustomer.hints.Id.name}"
+                                                                       sortable="true"
+                                                                       headerText="#{bindings.OrdersForCustomer.hints.Id.label}"
+                                                                       id="c1" width="40px">
+                                                                <af:outputText value="#{row.Id}"
+                                                                               shortDesc="#{bindings.OrdersForCustomer.hints.Id.tooltip}"
+                                                                               id="ot1">
+                                                                    <af:convertNumber groupingUsed="false"
+                                                                                      pattern="#{bindings.OrdersForCustomer.hints.Id.format}"/>
+                                                                </af:outputText>
+                                                            </af:column>
+                                                            <af:column sortProperty="#{bindings.OrdersForCustomer.hints.DateOrdered.name}"
+                                                                       sortable="true"
+                                                                       headerText="#{bindings.OrdersForCustomer.hints.DateOrdered.label}"
+                                                                       id="c2" align="center">
+                                                                <af:outputText value="#{row.DateOrdered}"
+                                                                               shortDesc="#{bindings.OrdersForCustomer.hints.DateOrdered.tooltip}"
+                                                                               id="ot2">
+                                                                    <af:convertDateTime pattern="#{bindings.OrdersForCustomer.hints.DateOrdered.format}"/>
+                                                                </af:outputText>
+                                                            </af:column>
+                                                            <af:column sortProperty="#{bindings.OrdersForCustomer.hints.DateShipped.name}"
+                                                                       sortable="true"
+                                                                       headerText="#{bindings.OrdersForCustomer.hints.DateShipped.label}"
+                                                                       id="c3" align="center">
+                                                                <af:outputText value="#{row.DateShipped}"
+                                                                               shortDesc="#{bindings.OrdersForCustomer.hints.DateShipped.tooltip}"
+                                                                               id="ot3">
+                                                                    <af:convertDateTime pattern="#{bindings.OrdersForCustomer.hints.DateShipped.format}"/>
+                                                                </af:outputText>
+                                                            </af:column>
+                                                            <af:column sortProperty="#{bindings.OrdersForCustomer.hints.Total.name}"
+                                                                       sortable="true"
+                                                                       headerText="#{bindings.OrdersForCustomer.hints.Total.label}"
+                                                                       id="c4" align="right">
+                                                                <af:outputText value="#{row.Total}"
+                                                                               shortDesc="#{bindings.OrdersForCustomer.hints.Total.tooltip}"
+                                                                               id="ot4">
+                                                                    <af:convertNumber groupingUsed="true"
+                                                                                      pattern="#{bindings.OrdersForCustomer.hints.Total.format}"
+                                                                                      type="currency"
+                                                                                      maxIntegerDigits="5"
+                                                                                      minFractionDigits="2"
+                                                                                      maxFractionDigits="2"/>
+                                                                </af:outputText>
+                                                            </af:column>
+                                                            <af:column sortProperty="#{bindings.OrdersForCustomer.hints.PaymentTypeId.name}"
+                                                                       sortable="true"
+                                                                       headerText="#{bindings.OrdersForCustomer.hints.PaymentTypeId.label}"
+                                                                       id="c5" align="center">
+                                                                <af:selectOneChoice value="#{row.bindings.PaymentTypeId.inputValue}"
+                                                                                    label="#{row.bindings.PaymentTypeId.label}"
+                                                                                    required="#{bindings.OrdersForCustomer.hints.PaymentTypeId.mandatory}"
+                                                                                    shortDesc="#{bindings.OrdersForCustomer.hints.PaymentTypeId.tooltip}"
+                                                                                    readOnly="true" id="soc4">
+                                                                    <f:selectItems value="#{row.bindings.PaymentTypeId.items}"
+                                                                                   id="si4"/>
+                                                                    <f:validator binding="#{row.bindings.PaymentTypeId.validator}"/>
+                                                                </af:selectOneChoice>
+                                                            </af:column>
+                                                            <af:column sortProperty="#{bindings.OrdersForCustomer.hints.OrderFilled.name}"
+                                                                       sortable="true"
+                                                                       headerText="#{bindings.OrdersForCustomer.hints.OrderFilled.label}"
+                                                                       id="c6" align="center" width="70px">
+                                                                <dvt:ledGauge id="ledGauge1" type="circle"
+                                                                              value="#{row.bindings.OrderFilled.inputValue}"
+                                                                              inlineStyle="width:70px" minimum="0"
+                                                                              maximum="1" size="0.2">
+                                                                    <dvt:gaugeThreshold id="thr1"
+                                                                                        color="#{row.OrderFilled eq 'N' ? '#d62800' : '#00ff00'}"/>
+                                                                    <dvt:gaugeMetricLabel rendered="false" id="gml1"/>
+                                                                </dvt:ledGauge>
+                                                            </af:column>
+                                                            <af:column sortProperty="#{bindings.OrdersForCustomer.hints.SalesRepLastName.name}"
+                                                                       sortable="true"
+                                                                       headerText="#{bindings.OrdersForCustomer.hints.SalesRepLastName.label}"
+                                                                       id="c7">
+                                                                <af:outputText value="#{row.SalesRepLastName}"
+                                                                               shortDesc="#{bindings.OrdersForCustomer.hints.SalesRepLastName.tooltip}"
+                                                                               id="ot5"/>
+                                                            </af:column>
+                                                        </af:table>
+                                                        <f:facet name="menus"/>
+                                                        <f:facet name="toolbar">
+                                                            <af:toolbar id="t2">
+                                                                <af:button text="New" id="b1"
+                                                                           icon="/images/icons/new_ena.png"
+                                                                           actionListener="#{backingBeanScope.CustomersBackingBean.createNewOrder}"/>
+                                                                <af:button text="Edit" id="b2"
+                                                                           icon="/images/icons/edit_ena.png">
+                                                                    <af:showPopupBehavior popupId="::::p1"
+                                                                                          triggerType="action"
+                                                                                          align="overlap"
+                                                                                          alignId="::pb1"/>
+                                                                </af:button>
+                                                                <af:button text="Delete" id="b3"
+                                                                           icon="/images/icons/delete_ena.png">
+                                                                    <af:showPopupBehavior popupId="p2"
+                                                                                          triggerType="action"/>
+                                                                </af:button>
+                                                                <af:button text="Export to Excel" id="b4"
+                                                                           icon="/images/icons/tree.png">
+                                                                    <af:exportCollectionActionListener type="excelHTML"
+                                                                                                       exportedId="t1"/>
+                                                                </af:button>
+                                                                <af:popup childCreation="deferred" autoCancel="disabled"
+                                                                          id="p2">
+                                                                    <af:dialog id="deleteOrderPop" type="yesNo"
+                                                                               title="Confirm Deletion of Order"
+                                                                               dialogListener="#{backingBeanScope.CustomersBackingBean.deleteOrderConfirmation}">
+                                                                        <af:outputText value="Do you want to delete order #{bindings.OrderId.inputValue}  for #{bindings.Name.inputValue}?"
+                                                                                       id="ot7"/>
+                                                                        <f:facet name="buttonBar"/>
+                                                                    </af:dialog>
+                                                                </af:popup>
+                                                            </af:toolbar>
+                                                        </f:facet>
+                                                        <f:facet name="statusbar"/>
+                                                    </af:panelCollection>
+                                                </af:panelGroupLayout>
+                                                <f:facet name="toolbar"/>
+                                            </af:panelBox>
+                                        </af:panelGroupLayout>
+                                    </af:gridCell>
+                                </af:gridRow>
+                            </af:panelGridLayout>
+                            <af:setPropertyListener from="#{'customers'}" to="#{viewScope.section}" type="disclosure"/>
+                        </af:showDetailItem>
+                        <af:showDetailItem text="Product Catalog" id="sdi3" inflexibleHeight="200"
+                                           icon="/images/catalog.png">
+                            <af:setPropertyListener from="#{'catalog'}" to="#{viewScope.section}" type="disclosure"/>
+                        </af:showDetailItem>
+                        <af:showDetailItem text="Employees Dashboard" id="sdi4" inflexibleHeight="200"
+                                           icon="/images/employees.png">
+                            <af:setPropertyListener from="#{'dashboard'}" to="#{viewScope.section}" type="disclosure"/>
+                        </af:showDetailItem>
+                    </af:panelSpringboard>
+                </f:facet>
+                <f:attribute name="endWidth" value="20px"/>
+                <f:attribute name="logoImagePath" value="/images/hideOracleLogo.png"/>
+                <f:attribute name="showFooter" value="true"/>
+                <f:facet name="end">
+                    <af:panelDrawer position="right" id="pd1" height="650px" width="900px"
+                                    visible="#{viewScope.section eq 'customers'}"
+                                    partialTriggers="::bBarFDC:l1 sdi2 sdi3 sdi4">
+                        <af:showDetailItem id="dr1" icon="/images/icons/orderDashboard.png"
+                                           shortDesc="Orders Dashboard">
+                            <af:panelDashboard id="pd2" columns="2" rowHeight="300px">
+                                <af:panelBox text="Order History" id="pb5" type="flow">
+                                    <f:facet name="toolbar"/>
+                                    <af:componentDragSource/>
+                                        <dvt:barChart id="barChart1" var="row"
+                                                      value="#{bindings.OrdersForCustomer1.collectionModel}"
+                                                      hoverBehavior="dim" zoomAndScroll="live"
+                                                      contentDelivery="immediate" inlineStyle="height:250px;">
+                                            <dvt:chartLegend id="cl1" rendered="false"/>
+                                            <f:facet name="dataStamp">
+                                                <dvt:chartDataItem id="di1" value="#{row.Total}"
+                                                                   group="#{row.DateOrdered}"
+                                                                   series="#{bindings.OrdersForCustomer1.hints.Total.label}">
+                                                    <dvt:attributeGroups id="ag2" value="#{row.DateOrdered}"
+                                                                         type="color"/>
+                                                </dvt:chartDataItem>
+                                            </f:facet>
+                                            <f:facet name="overview">
+                                                <dvt:overview id="o1"/>
+                                            </f:facet>
+                                            <dvt:chartYAxis id="cya1">
+                                                <dvt:referenceLine id="rl1"
+                                                                   value="#{bindings.OrderAverage.inputValue}"
+                                                                   color="#FF0000" text="Order Average"
+                                                                   displayInLegend="on"/>
+                                            </dvt:chartYAxis>
+                                        </dvt:barChart>
+                                </af:panelBox>
+                                <af:panelBox text="Shipping Time" id="pb6">
+                                    <f:facet name="toolbar"/>
+                                    <dvt:lineChart id="chart1" value="#{bindings.OrdersForCustomer1.collectionModel}"
+                                                   dataCursor="on" contentDelivery="immediate" var="row"
+                                                   inlineStyle="height:250px;">
+                                        <dvt:chartLegend id="leg1" rendered="true"/>
+                                        <f:facet name="dataStamp">
+                                            <dvt:chartDataItem group="#{row.DateOrdered}" id="cdi1"
+                                                               value="#{row.TimeToShip}"
+                                                               series="#{bindings.OrdersForCustomer1.hints.TimeToShip.label}"/>
+                                        </f:facet>
+                                    </dvt:lineChart>
+                                    <af:componentDragSource/>
+                                </af:panelBox>
+                                <af:panelBox text="Order Proportion" id="pb7">
+                                    <f:facet name="toolbar"/>
+                                    <dvt:pieChart id="chart2" value="#{bindings.OrdersForCustomer1.collectionModel}"
+                                                  inlineStyle="height:250px;" var="row" contentDelivery="immediate"
+                                                  threeDEffect="on">
+                                        <dvt:chartLegend id="leg2" rendered="true" position="bottom"/>
+                                        <dvt:pieDataItem label="#{row.SalesRepLastName}" value="#{row.Total}"
+                                                         id="pdi1" explode="1"/>
+                                    </dvt:pieChart>
+                                    <af:componentDragSource/>
+                                </af:panelBox>
+                            </af:panelDashboard>
+                        </af:showDetailItem>
+                        <af:showDetailItem id="sdi1" icon="/images/SalesProfile.png" shortDesc="Sales Rep. Details">
+                            <af:panelBox text="Employee ##{bindings.SalesRepId.inputValue}" id="pb8" background="medium">
+                                <f:facet name="toolbar"/>
+                                <af:panelFormLayout id="pfl7">
+                                    <af:inputText value="#{bindings.userid.inputValue}"
+                                                  label="#{bindings.userid.hints.label}"
+                                                  required="#{bindings.userid.hints.mandatory}" readOnly="true"
+                                                  columns="#{bindings.userid.hints.displayWidth}"
+                                                  maximumLength="#{bindings.userid.hints.precision}"
+                                                  shortDesc="#{bindings.userid.hints.tooltip}" id="it15">
+                                        <f:validator binding="#{bindings.userid.validator}"/>
+                                    </af:inputText>
+                                    <af:inputText value="#{bindings.firstName.inputValue}"
+                                                  label="#{bindings.firstName.hints.label}"
+                                                  required="#{bindings.firstName.hints.mandatory}" readOnly="true"
+                                                  columns="#{bindings.firstName.hints.displayWidth}"
+                                                  maximumLength="#{bindings.firstName.hints.precision}"
+                                                  shortDesc="#{bindings.firstName.hints.tooltip}" id="it16">
+                                        <f:validator binding="#{bindings.firstName.validator}"/>
+                                    </af:inputText>
+                                    <af:inputText value="#{bindings.lastName.inputValue}"
+                                                  label="#{bindings.lastName.hints.label}"
+                                                  required="#{bindings.lastName.hints.mandatory}" readOnly="true"
+                                                  columns="#{bindings.lastName.hints.displayWidth}"
+                                                  maximumLength="#{bindings.lastName.hints.precision}"
+                                                  shortDesc="#{bindings.lastName.hints.tooltip}" id="it17">
+                                        <f:validator binding="#{bindings.lastName.validator}"/>
+                                    </af:inputText>
+                                    <af:inputText value="#{bindings.startDate.inputValue}"
+                                                  label="#{bindings.startDate.hints.label}"
+                                                  required="#{bindings.startDate.hints.mandatory}" readOnly="true"
+                                                  columns="#{bindings.startDate.hints.displayWidth}"
+                                                  maximumLength="#{bindings.startDate.hints.precision}"
+                                                  shortDesc="#{bindings.startDate.hints.tooltip}" id="it18">
+                                        <f:validator binding="#{bindings.startDate.validator}"/>
+                                    </af:inputText>
+                                    <af:inputText value="#{bindings.email.inputValue}"
+                                                  label="#{bindings.email.hints.label}"
+                                                  required="#{bindings.email.hints.mandatory}" readOnly="true"
+                                                  columns="#{bindings.email.hints.displayWidth}"
+                                                  maximumLength="#{bindings.email.hints.precision}"
+                                                  shortDesc="#{bindings.email.hints.tooltip}" id="it19">
+                                        <f:validator binding="#{bindings.email.validator}"/>
+                                    </af:inputText>
+                                    <af:inputText value="#{bindings.salary.inputValue}"
+                                                  label="#{bindings.salary.hints.label}"
+                                                  required="#{bindings.salary.hints.mandatory}" readOnly="true"
+                                                  columns="#{bindings.salary.hints.displayWidth}"
+                                                  maximumLength="#{bindings.salary.hints.precision}"
+                                                  shortDesc="#{bindings.salary.hints.tooltip}" id="it20">
+                                        <f:validator binding="#{bindings.salary.validator}"/>
+                                        <af:convertNumber groupingUsed="false" pattern="#{bindings.salary.format}"/>
+                                    </af:inputText>
+                                    <af:inputText value="#{bindings.commissionPct.inputValue}"
+                                                  label="#{bindings.commissionPct.hints.label}"
+                                                  required="#{bindings.commissionPct.hints.mandatory}" readOnly="true"
+                                                  columns="#{bindings.commissionPct.hints.displayWidth}"
+                                                  maximumLength="#{bindings.commissionPct.hints.precision}"
+                                                  shortDesc="#{bindings.commissionPct.hints.tooltip}" id="it21">
+                                        <f:validator binding="#{bindings.commissionPct.validator}"/>
+                                        <af:convertNumber groupingUsed="false"
+                                                          pattern="#{bindings.commissionPct.format}"/>
+                                    </af:inputText>
+                                </af:panelFormLayout>
+                            </af:panelBox>
+                        </af:showDetailItem>
+                    </af:panelDrawer>
+                </f:facet>
+            </af:pageTemplate>
+            <af:popup childCreation="deferred" autoCancel="disabled" id="p1" contentDelivery="immediate"
+                      binding="#{backingBeanScope.CustomersBackingBean.popupOrder}">
+                <af:dialog id="d2" title="Order # #{bindings.OrderId.inputValue}" resize="on" stretchChildren="first"
+                           type="ok" contentWidth="870" contentHeight="500">
+                    <f:facet name="buttonBar"/>
+                    <af:panelGroupLayout id="pgl8" layout="scroll">
+                        <af:panelFormLayout id="pfl4" rows="3">
+                            <af:inputDate value="#{bindings.DateOrdered.inputValue}"
+                                          label="#{bindings.DateOrdered.hints.label}"
+                                          required="#{bindings.DateOrdered.hints.mandatory}"
+                                          columns="#{bindings.DateOrdered.hints.displayWidth}"
+                                          shortDesc="#{bindings.DateOrdered.hints.tooltip}" id="id1">
+                                <f:validator binding="#{bindings.DateOrdered.validator}"/>
+                                <af:convertDateTime pattern="#{bindings.DateOrdered.format}"/>
+                            </af:inputDate>
+                            <af:inputListOfValues id="salesRepId1Id"
+                                                  popupTitle="Search and Select: #{bindings.SalesRepId1.hints.label}"
+                                                  value="#{bindings.SalesRepId1.inputValue}"
+                                                  label="#{bindings.SalesRepId1.hints.label}"
+                                                  model="#{bindings.SalesRepId1.listOfValuesModel}"
+                                                  required="#{bindings.SalesRepId1.hints.mandatory}"
+                                                  columns="#{bindings.SalesRepId1.hints.displayWidth}"
+                                                  shortDesc="#{bindings.SalesRepId1.hints.tooltip}">
+                                <f:validator binding="#{bindings.SalesRepId1.validator}"/>
+                                <af:convertNumber groupingUsed="false" pattern="#{bindings.SalesRepId1.format}"/>
+                            </af:inputListOfValues>
+                            <af:inputText value="#{bindings.SalesRepLastName1.inputValue}"
+                                          required="#{bindings.SalesRepLastName1.hints.mandatory}"
+                                          columns="#{bindings.SalesRepLastName1.hints.displayWidth}"
+                                          maximumLength="#{bindings.SalesRepLastName1.hints.precision}"
+                                          shortDesc="#{bindings.SalesRepLastName1.hints.tooltip}" id="it8">
+                                <f:validator binding="#{bindings.SalesRepLastName1.validator}"/>
+                            </af:inputText>
+                            <af:inputDate value="#{bindings.DateShipped.inputValue}"
+                                          label="#{bindings.DateShipped.hints.label}"
+                                          required="#{bindings.DateShipped.hints.mandatory}"
+                                          columns="#{bindings.DateShipped.hints.displayWidth}"
+                                          shortDesc="#{bindings.DateShipped.hints.tooltip}" id="id2">
+                                <f:validator binding="#{bindings.DateShipped.validator}"/>
+                                <af:convertDateTime pattern="#{bindings.DateShipped.format}"/>
+                            </af:inputDate>
+                            <af:selectOneChoice value="#{bindings.PaymentTypeId.inputValue}"
+                                                label="#{bindings.PaymentTypeId.label}"
+                                                required="#{bindings.PaymentTypeId.hints.mandatory}"
+                                                shortDesc="#{bindings.PaymentTypeId.hints.tooltip}" id="soc5"
+                                                clientComponent="true">
+                                <f:selectItems value="#{bindings.PaymentTypeId.items}" id="si5"/>
+                                <f:validator binding="#{bindings.PaymentTypeId.validator}"/>
+                            </af:selectOneChoice>
+                            <af:selectOneRadio value="#{bindings.OrderFilled.inputValue}"
+                                               label="#{bindings.OrderFilled.label}"
+                                               required="#{bindings.OrderFilled.hints.mandatory}"
+                                               shortDesc="#{bindings.OrderFilled.hints.tooltip}" id="sor1"
+                                               layout="horizontal">
+                                <f:selectItems value="#{bindings.OrderFilled.items}" id="si6"/>
+                                <f:validator binding="#{bindings.OrderFilled.validator}"/>
+                            </af:selectOneRadio>
+                            <af:outputFormatted value="Total : &lt;b&gt;#{bindings.Total.inputValue}&lt;/b&gt;" id="it9">
+                                <af:convertNumber groupingUsed="true" pattern="#{bindings.Total.format}" type="currency"
+                                                  maxIntegerDigits="5" minFractionDigits="2" maxFractionDigits="2"/>
+                            </af:outputFormatted>
+                            <dvt:statusMeterGauge orientation="horizontal" inlineStyle="width:230px;height:20px"
+                                                  id="statusMeterGauge1" minimum="100" maximum="100000"
+                                                  value="#{bindings.Total.inputValue}" borderColor="#000000"
+                                                  thresholdDisplay="all" color="#d66f30">
+                                <dvt:gaugeThreshold id="gt1" maximum="25000" color="#ffc0b6"/>
+                                <dvt:gaugeThreshold id="gt2" maximum="50000" color="#ffb2a6"/>
+                                <dvt:gaugeThreshold id="gt3" maximum="75000" color="#ff8071"/>
+                                <dvt:gaugeThreshold id="gt4" maximum="100000" color="#ff2f2f"/>
+                                <dvt:gaugeMetricLabel id="gml2" rendered="false"/>
+                            </dvt:statusMeterGauge>
+                        </af:panelFormLayout>
+                        <af:spacer width="10" height="30" id="s10"/>
+                        <af:panelCollection id="pc2" featuresOff="statusBar viewMenu detach"
+                                            styleClass="AFStretchWidth">
+                            <af:table value="#{bindings.ItemsForOrder.collectionModel}" var="row"
+                                      rows="#{bindings.ItemsForOrder.rangeSize}"
+                                      emptyText="#{bindings.ItemsForOrder.viewable ? 'No data to display.' : 'Access Denied.'}"
+                                      rowBandingInterval="0" fetchSize="#{bindings.ItemsForOrder.rangeSize}" id="t3"
+                                      columnStretching="last" styleClass="auto height" autoHeightRows="4"
+                                      partialTriggers="::b5 ::b6">
+                                <af:column id="c8" align="center" width="70">
+                                    <af:image shortDesc="#{bindings.ItemsForOrder.hints.ImageNameFromDB.tooltip}"
+                                              id="i4" source="/images/products/#{row.ImageNameFromDB}"
+                                              inlineStyle="height:60px; width:70px; text-align:center;"/>
+                                </af:column>
+                                <af:column id="c9"
+                                           width="400">
+                                    <af:panelFormLayout id="pfl5" rows="2">
+                                        <f:facet name="footer"/>
+                                        <af:panelLabelAndMessage label="Product" id="plam2">
+                                            <af:panelGroupLayout id="pgl9" layout="horizontal">
+                                                <af:inputListOfValues id="productIdId"
+                                                                      popupTitle="Search and Select: #{bindings.ItemsForOrder.hints.ProductId.label}"
+                                                                      value="#{row.bindings.ProductId.inputValue}"
+                                                                      model="#{row.bindings.ProductId.listOfValuesModel}"
+                                                                      required="#{bindings.ItemsForOrder.hints.ProductId.mandatory}"
+                                                                      columns="#{bindings.ItemsForOrder.hints.ProductId.displayWidth}"
+                                                                      shortDesc="#{bindings.ItemsForOrder.hints.ProductId.tooltip}"
+                                                                      label="Product">
+                                                    <f:validator binding="#{row.bindings.ProductId.validator}"/>
+                                                    <af:convertNumber groupingUsed="false"
+                                                                      pattern="#{bindings.ItemsForOrder.hints.ProductId.format}"/>
+                                                </af:inputListOfValues>
+                                                <af:spacer width="10" height="10" id="s11"/>
+                                                <af:outputFormatted value="#{row.bindings.ProductName.inputValue}"
+                                                                    shortDesc="#{bindings.ItemsForOrder.hints.ProductName.tooltip}"
+                                                                    id="it11"/>
+                                            </af:panelGroupLayout>
+                                        </af:panelLabelAndMessage>
+                                        <af:inputText value="#{row.bindings.ProductShortDesc.inputValue}"
+                                                      label="#{bindings.ItemsForOrder.hints.ProductShortDesc.label}"
+                                                      required="#{bindings.ItemsForOrder.hints.ProductShortDesc.mandatory}"
+                                                      columns="50"
+                                                      maximumLength="#{bindings.ItemsForOrder.hints.ProductShortDesc.precision}"
+                                                      shortDesc="#{bindings.ItemsForOrder.hints.ProductShortDesc.tooltip}"
+                                                      id="it10" rows="3" readOnly="true">
+                                            <f:validator binding="#{row.bindings.ProductShortDesc.validator}"/>
+                                        </af:inputText>
+                                    </af:panelFormLayout>
+                                </af:column>
+                                <af:column id="c12"
+                                           width="280">
+                                    <af:panelFormLayout id="pfl6" rows="3">
+                                        <f:facet name="footer"/>
+                                        <af:inputText value="#{row.bindings.Price.inputValue}"
+                                                      label="#{bindings.ItemsForOrder.hints.Price.label}"
+                                                      required="#{bindings.ItemsForOrder.hints.Price.mandatory}"
+                                                      columns="#{bindings.ItemsForOrder.hints.Price.displayWidth}"
+                                                      maximumLength="#{bindings.ItemsForOrder.hints.Price.precision}"
+                                                      shortDesc="#{bindings.ItemsForOrder.hints.Price.tooltip}"
+                                                      id="it12">
+                                            <f:validator binding="#{row.bindings.Price.validator}"/>
+                                            <af:convertNumber groupingUsed="false"
+                                                              pattern="#{bindings.ItemsForOrder.hints.Price.format}"/>
+                                        </af:inputText>
+                                        <af:inputNumberSpinbox value="#{row.bindings.Quantity.inputValue}"
+                                                               label="#{bindings.ItemsForOrder.hints.Quantity.label}"
+                                                               required="#{bindings.ItemsForOrder.hints.Quantity.mandatory}"
+                                                               columns="#{bindings.ItemsForOrder.hints.Quantity.displayWidth}"
+                                                               shortDesc="#{bindings.ItemsForOrder.hints.Quantity.tooltip}"
+                                                               id="it13" autoSubmit="true">
+                                            <f:validator binding="#{row.bindings.Quantity.validator}"/>
+                                            <af:convertNumber groupingUsed="false"
+                                                              pattern="#{bindings.ItemsForOrder.hints.Quantity.format}"/>
+                                        </af:inputNumberSpinbox>
+                                        <af:inputText value="#{row.bindings.ItemTotal.inputValue}"
+                                                      label="#{bindings.ItemsForOrder.hints.ItemTotal.label}"
+                                                      required="#{bindings.ItemsForOrder.hints.ItemTotal.mandatory}"
+                                                      columns="#{bindings.ItemsForOrder.hints.ItemTotal.displayWidth}"
+                                                      maximumLength="#{bindings.ItemsForOrder.hints.ItemTotal.precision}"
+                                                      shortDesc="#{bindings.ItemsForOrder.hints.ItemTotal.tooltip}"
+                                                      id="it14" partialTriggers="it12 it13">
+                                            <f:validator binding="#{row.bindings.ItemTotal.validator}"/>
+                                            <af:convertNumber groupingUsed="true"
+                                                              pattern="#{bindings.ItemsForOrder.hints.ItemTotal.format}"
+                                                              type="currency" minFractionDigits="2"
+                                                              maxFractionDigits="2"/>
+                                        </af:inputText>
+                                    </af:panelFormLayout>
+                                </af:column>
+                                <af:column id="c10" width="70">
+                                    <af:link id="l4" icon="/images/warehouse_icon.png">
+                                        <af:showPopupBehavior popupId=":::pstock" triggerType="action" align="overlap"
+                                                              alignId=":::soc5"/>
+                                    </af:link>
+                                </af:column>
+                            </af:table>
+                            <f:facet name="menus"/>
+                            <f:facet name="toolbar">
+                                <af:toolbar id="t4">
+                                    <af:button text="New" id="b5" icon="/images/icons/new_ena.png"
+                                               actionListener="#{bindings.CreateInsertItemForOrder.execute}"/>
+                                    <af:button text="Delete" id="b6" icon="/images/icons/delete_ena.png"
+                                               actionListener="#{bindings.deleteOrderItem.execute}"/>
+                                </af:toolbar>
+                            </f:facet>
+                            <f:facet name="statusbar"/>
+                        </af:panelCollection>
+                    </af:panelGroupLayout>
+                </af:dialog>
+            </af:popup>
+            <af:popup childCreation="deferred" autoCancel="disabled" id="pstock" contentDelivery="immediate">
+                <af:panelWindow id="pw1" stretchChildren="first" contentHeight="400" contentWidth="660"
+                                title="Stock Locations for Product ##{bindings.ProductId.inputValue} - #{bindings.ProductName.inputValue}">
+                    <dvt:thematicMap id="tm1" basemap="world" summary="Stock locations" animationOnDisplay="alphaFade"
+                                     initialZooming="auto" markerZoomBehavior="zoom"
+                                     inlineStyle="background-color:#cdcdcd;">
+                        <dvt:areaLayer layer="countries" id="al1" labelStyle="font-size:x-small;"
+                                       areaStyle="backgroud-color:#fff3d5;">
+                            <dvt:pointDataLayer id="dl1" selectionMode="single"
+                                                selectedRowKeys="#{bindings.InventoriesForItem.collectionModel.selectedRow}"
+                                                selectionListener="#{bindings.InventoriesForItem.collectionModel.makeCurrent}"
+                                                value="#{bindings.InventoriesForItem.collectionModel}" var="row">
+                                <dvt:pointLocation type="pointXY" pointX="#{row.WarehouseLongitude}"
+                                                   pointY="#{row.WarehouseLatitude}" id="pl1">
+                                    <dvt:marker id="m3" value="#{row.AmountInStock}" borderStyle="solid"
+                                                borderWidth="3.0" height="350" opacity="0.0" scaleX="0.5" scaleY="0.5"
+                                                width="350" labelStyle="font-size:72px;color:white;font-weight:bolder;">
+                                        <dvt:attributeGroups id="ag1" value="#{row.AmountInStock}"
+                                                             label="#{row.WarehouseCity}"
+                                                             type="color"/>
+                                    </dvt:marker>
+                                </dvt:pointLocation>
+                            </dvt:pointDataLayer>
+                        </dvt:areaLayer>
+                        <dvt:legend id="l5">
+                            <f:facet name="separator"/>
+                            <dvt:legendSection id="ls1" source="al1:dl1:ag1"/>
+                        </dvt:legend>
+                    </dvt:thematicMap>
+                </af:panelWindow>
+            </af:popup>
+        </af:form>
+    </af:document>
+</f:view>

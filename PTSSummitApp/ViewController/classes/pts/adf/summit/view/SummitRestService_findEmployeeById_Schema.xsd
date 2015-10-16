@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+  <xsd:element name="empss">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="emps">
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element name="commissionPct" type="xsd:integer"/>
+              <xsd:element name="deptId" type="xsd:integer"/>
+              <xsd:element name="email" type="xsd:string"/>
+              <xsd:element name="firstName" type="xsd:string"/>
+              <xsd:element name="id" type="xsd:integer"/>
+              <xsd:element name="lastName" type="xsd:string"/>
+              <xsd:element name="managerId" type="xsd:integer"/>
+              <xsd:element name="salary" type="xsd:integer"/>
+              <xsd:element name="startDate" type="xsd:string"/>
+              <xsd:element name="titleId" type="xsd:integer"/>
+              <xsd:element name="userid" type="xsd:string"/>
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+</xsd:schema>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<DataControlConfigs xmlns="http://xmlns.oracle.com/adfm/configuration" version="12.1.3.10.8" id="DataControls"
+                    Package="pts.adf.summit.view">
+  <AdapterDataControl id="SummitRestService" FactoryClass="oracle.adf.model.adapter.DataControlFactoryImpl"
+                      ImplDef="oracle.adf.model.adapter.rest.RestURLDCDefinition" SupportsTransactions="false"
+                      SupportsSortCollection="false" SupportsResetState="false" SupportsRangesize="false"
+                      SupportsFindMode="false" SupportsUpdates="false"
+                      Definition="pts.adf.summit.view.SummitRestService"
+                      BeanClass="pts.adf.summit.view.SummitRestService"
+                      xmlns="http://xmlns.oracle.com/adfm/datacontrol">
+    <Source>
+      <Definitions>
+        <Definition xmlns="http://xmlns.oracle.com/adfm/adapter/rest/xml" ConnectionName="SummitRestServiceConn"
+                    Source="/employee" HttpMethod="GET" id="getAllEmployees" MethodRef="XSD"
+                    SchemaLocation="pts/adf/summit/view/SummitRestService_getAllEmployees_Schema.xsd"
+                    ensureKeyAttribute="true" dcStructureVersion="2" RootElement="empss"/>
+        <Definition xmlns="http://xmlns.oracle.com/adfm/adapter/rest/xml" ConnectionName="SummitRestServiceConn"
+                    Source="/employee/##empId##" HttpMethod="GET" id="findEmployeeById" MethodRef="XSD"
+                    SchemaLocation="pts/adf/summit/view/SummitRestService_findEmployeeById_Schema.xsd"
+                    ensureKeyAttribute="true" dcStructureVersion="2" RootElement="empss">
+          <Parameters>
+            <Parameter Name="empId" Value="14"/>
+          </Parameters>
+        </Definition>
+      </Definitions>
+    </Source>
+  </AdapterDataControl>
+</DataControlConfigs>

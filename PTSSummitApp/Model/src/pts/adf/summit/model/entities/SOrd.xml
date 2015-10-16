@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<!DOCTYPE Entity SYSTEM "jbo_03_01.dtd">
+<!---->
+<Entity
+  xmlns="http://xmlns.oracle.com/bc4j"
+  Name="SOrd"
+  Version="12.1.3.10.8"
+  InheritPersonalization="merge"
+  DBObjectType="table"
+  DBObjectName="S_ORD"
+  AliasName="SOrd"
+  BindingStyle="OracleName"
+  RowClass="pts.adf.summit.model.entities.SOrdImpl"
+  xmlns:validation="http://xmlns.oracle.com/adfm/validation">
+  <DesignTime>
+    <Attr Name="_codeGenFlag2" Value="Access"/>
+    <Attr Name="_isCodegen" Value="true"/>
+  </DesignTime>
+  <ViewAccessor
+    Name="PaymentOptionsVA"
+    ViewObjectName="pts.adf.summit.model.views.SPaymentOptionsView"
+    RowLevelBinds="true"/>
+  <Attribute
+    Name="Id"
+    Precision="7"
+    Scale="0"
+    ColumnName="ID"
+    SQLType="NUMERIC"
+    Type="oracle.jbo.domain.DBSequence"
+    ColumnType="NUMBER"
+    TableName="S_ORD"
+    PrimaryKey="true"
+    IsUpdateable="while_insert"
+    DefaultValue="@0"
+    Domain="oracle.jbo.domain.DBSequence"
+    RetrievedOnInsert="true"/>
+  <Attribute
+    Name="CustomerId"
+    IsNotNull="true"
+    Precision="7"
+    Scale="0"
+    ColumnName="CUSTOMER_ID"
+    SQLType="NUMERIC"
+    Type="java.lang.Integer"
+    ColumnType="NUMBER"
+    TableName="S_ORD">
+    <validation:ExistsValidationBean
+      Name="CustomerIdRule0"
+      ResId="pts.adf.summit.model.entities.SOrd.CustomerId_Rule_0"
+      OperandType="EO"
+      AssocName="pts.adf.summit.model.entities.assoc.SOrdCustomerIdFkAssoc"/>
+  </Attribute>
+  <Attribute
+    Name="DateOrdered"
+    ColumnName="DATE_ORDERED"
+    SQLType="DATE"
+    Type="java.sql.Timestamp"
+    ColumnType="DATE"
+    TableName="S_ORD">
+    <TransientExpression
+      trustMode="untrusted"><![CDATA[adf.currentDate]]></TransientExpression>
+  </Attribute>
+  <Attribute
+    Name="DateShipped"
+    ColumnName="DATE_SHIPPED"
+    SQLType="DATE"
+    Type="java.sql.Timestamp"
+    ColumnType="DATE"
+    TableName="S_ORD"/>
+  <Attribute
+    Name="SalesRepId"
+    Precision="7"
+    Scale="0"
+    ColumnName="SALES_REP_ID"
+    SQLType="NUMERIC"
+    Type="java.lang.Integer"
+    ColumnType="NUMBER"
+    TableName="S_ORD"/>
+  <Attribute
+    Name="Total"
+    Precision="11"
+    Scale="2"
+    ColumnName="TOTAL"
+    SQLType="NUMERIC"
+    Type="java.math.BigDecimal"
+    ColumnType="NUMBER"
+    TableName="S_ORD"
+    DefaultValue="0"/>
+  <Attribute
+    Name="PaymentTypeId"
+    Precision="7"
+    Scale="0"
+    ColumnName="PAYMENT_TYPE_ID"
+    SQLType="NUMERIC"
+    Type="java.lang.Integer"
+    ColumnType="NUMBER"
+    TableName="S_ORD"
+    DefaultValue="1">
+    <validation:ExpressionValidationBean
+      Name="PaymentTypeIdRule0"
+      OperandType="EXPR"
+      Inverse="false">
+      <validation:MsgIds>
+        <validation:Item
+          Value="errorId"/>
+      </validation:MsgIds>
+      <validation:TransientExpression
+        trustMode="untrusted"><![CDATA[def cr = SCustomer.CreditRatingId
+def ratings = [1, 2]
+if (cr  in ratings)
+{return true}
+else
+{return false}]]></validation:TransientExpression>
+    </validation:ExpressionValidationBean>
+  </Attribute>
+  <Attribute
+    Name="PaymentOptionId"
+    Precision="7"
+    Scale="0"
+    ColumnName="PAYMENT_OPTION_ID"
+    SQLType="NUMERIC"
+    Type="java.lang.Integer"
+    ColumnType="NUMBER"
+    TableName="S_ORD">
+    <validation:ListValidationBean
+      Name="PaymentOptionIdRule0"
+      ResId="pts.adf.summit.model.entities.SOrd.PaymentOptionId_Rule_0"
+      MessageFlavor="IGNORE_DETAILS"
+      OnAttribute="PaymentOptionId"
+      OperandType="VO_USAGE"
+      Inverse="false"
+      ViewAccAttrName="Id"
+      ViewAccName="PaymentOptionsVA">
+            <validation:ResExpressions
+        Name="PaymentOptionIdRule0_ResExprList">
+        <validation:Expression
+          trustMode="untrusted"
+          Name="paymentOptionIdList"><![CDATA[def paymentOptionIdList = []
+while ( PaymentOptionsVA.hasNext() ) {
+PaymentOptionsVA.next()
+paymentOptionIdList.add(PaymentOptionsVA.currentRow.Id) }
+return paymentOptionIdList]]></validation:Expression>
+      </validation:ResExpressions>
+</validation:ListValidationBean>
+  </Attribute>
+  <Attribute
+    Name="OrderFilled"
+    Precision="1"
+    ColumnName="ORDER_FILLED"
+    SQLType="VARCHAR"
+    Type="java.lang.String"
+    ColumnType="VARCHAR2"
+    TableName="S_ORD"
+    DefaultValue="N">
+    <DesignTime>
+      <Attr Name="_DisplaySize" Value="1"/>
+    </DesignTime>
+  </Attribute>
+  <AccessorAttribute
+    Name="SItem"
+    Association="pts.adf.summit.model.entities.assoc.SItemOrdIdFkAssoc"
+    AssociationEnd="pts.adf.summit.model.entities.assoc.SItemOrdIdFkAssoc.SItem"
+    AssociationOtherEnd="pts.adf.summit.model.entities.assoc.SItemOrdIdFkAssoc.SOrd"
+    Type="oracle.jbo.RowIterator"
+    IsUpdateable="false"/>
+  <AccessorAttribute
+    Name="SCustomer"
+    Association="pts.adf.summit.model.entities.assoc.SOrdCustomerIdFkAssoc"
+    AssociationEnd="pts.adf.summit.model.entities.assoc.SOrdCustomerIdFkAssoc.SCustomer"
+    AssociationOtherEnd="pts.adf.summit.model.entities.assoc.SOrdCustomerIdFkAssoc.SOrd"
+    Type="oracle.jbo.server.EntityImpl"
+    IsUpdateable="true"/>
+  <AccessorAttribute
+    Name="SEmp"
+    Association="pts.adf.summit.model.entities.assoc.SOrdSalesRepIdFkAssoc"
+    AssociationEnd="pts.adf.summit.model.entities.assoc.SOrdSalesRepIdFkAssoc.SEmp"
+    AssociationOtherEnd="pts.adf.summit.model.entities.assoc.SOrdSalesRepIdFkAssoc.SOrd"
+    Type="oracle.jbo.server.EntityImpl"
+    IsUpdateable="true"/>
+  <AccessorAttribute
+    Name="SPaymentType"
+    Association="pts.adf.summit.model.entities.assoc.SOrdPaymentTypeFkAssoc"
+    AssociationEnd="pts.adf.summit.model.entities.assoc.SOrdPaymentTypeFkAssoc.SPaymentType"
+    AssociationOtherEnd="pts.adf.summit.model.entities.assoc.SOrdPaymentTypeFkAssoc.SOrd"
+    Type="oracle.jbo.server.EntityImpl"
+    IsUpdateable="true"/>
+  <Key
+    Name="SOrdCustomerIdNn">
+    <DesignTime>
+      <Attr Name="_DBObjectName" Value="S_ORD_CUSTOMER_ID_NN"/>
+      <Attr Name="_checkCondition" Value="CUSTOMER_ID IS NOT NULL"/>
+      <Attr Name="_isCheck" Value="true"/>
+    </DesignTime>
+    <AttrArray Name="Attributes"/>
+  </Key>
+  <Key
+    Name="SOrdIdNn">
+    <DesignTime>
+      <Attr Name="_DBObjectName" Value="S_ORD_ID_NN"/>
+      <Attr Name="_checkCondition" Value="ID IS NOT NULL"/>
+      <Attr Name="_isCheck" Value="true"/>
+    </DesignTime>
+    <AttrArray Name="Attributes"/>
+  </Key>
+  <Key
+    Name="SOrdIdPk"
+    PrimaryKey="true">
+    <DesignTime>
+      <Attr Name="_DBObjectName" Value="S_ORD_ID_PK"/>
+    </DesignTime>
+    <AttrArray Name="Attributes">
+      <Item Value="pts.adf.summit.model.entities.SOrd.Id"/>
+    </AttrArray>
+  </Key>
+  <Key
+    Name="SOrdOrderFilledCk">
+    <DesignTime>
+      <Attr Name="_DBObjectName" Value="S_ORD_ORDER_FILLED_CK"/>
+      <Attr Name="_checkCondition" Value="ORDER_FILLED IN ('Y', 'N')"/>
+      <Attr Name="_isCheck" Value="true"/>
+    </DesignTime>
+    <AttrArray Name="Attributes"/>
+  </Key>
+  <Key
+    Name="SOrdCustomerIdFk">
+    <DesignTime>
+      <Attr Name="_referencedKey" Value="S_CUSTOMER_ID_PK"/>
+      <Attr Name="_isForeign" Value="true"/>
+      <Attr Name="_DBObjectName" Value="S_ORD_CUSTOMER_ID_FK"/>
+    </DesignTime>
+    <AttrArray Name="Attributes">
+      <Item Value="pts.adf.summit.model.entities.SOrd.CustomerId"/>
+    </AttrArray>
+  </Key>
+  <Key
+    Name="SOrdPaymentTypeFk">
+    <DesignTime>
+      <Attr Name="_referencedKey" Value="S_PAYMENT_TYPE_PK"/>
+      <Attr Name="_isForeign" Value="true"/>
+      <Attr Name="_DBObjectName" Value="S_ORD_PAYMENT_TYPE_FK"/>
+    </DesignTime>
+    <AttrArray Name="Attributes">
+      <Item Value="pts.adf.summit.model.entities.SOrd.PaymentTypeId"/>
+    </AttrArray>
+  </Key>
+  <Key
+    Name="SOrdSalesRepIdFk">
+    <DesignTime>
+      <Attr Name="_referencedKey" Value="S_EMP_ID_PK"/>
+      <Attr Name="_isForeign" Value="true"/>
+      <Attr Name="_DBObjectName" Value="S_ORD_SALES_REP_ID_FK"/>
+    </DesignTime>
+    <AttrArray Name="Attributes">
+      <Item Value="pts.adf.summit.model.entities.SOrd.SalesRepId"/>
+    </AttrArray>
+  </Key>
+  <validation:CompareValidationBean
+    Name="SOrd_ShipDateAfterOrderDate"
+    ResId="pts.adf.summit.model.entities.SOrd_Rule_0"
+    OnAttribute="DateShipped"
+    OperandType="ATTR"
+    Inverse="false"
+    CompareType="GREATERTHANEQUALTO"
+    CompareValue="DateOrdered">
+    <validation:OnAttributes>
+      <validation:Item
+        Value="DateShipped"/>
+      <validation:Item
+        Value="DateOrdered"/>
+    </validation:OnAttributes>
+    <validation:ResExpressions
+      Name="SOrd_ShipDateAfterOrderDate_ResExprList">
+      <validation:Expression
+        trustMode="untrusted"
+        Name="shipDate"><![CDATA[DateShipped]]></validation:Expression>
+      <validation:Expression
+        trustMode="untrusted"
+        Name="orderDate"><![CDATA[DateOrdered]]></validation:Expression>
+    </validation:ResExpressions>
+  </validation:CompareValidationBean>
+  <ResourceBundle>
+    <PropertiesBundle
+      PropertiesFile="pts.adf.summit.model.ModelBundle"/>
+  </ResourceBundle>
+</Entity>

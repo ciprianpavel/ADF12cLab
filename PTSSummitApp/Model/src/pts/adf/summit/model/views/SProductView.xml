@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<!DOCTYPE ViewObject SYSTEM "jbo_03_01.dtd">
+<!---->
+<ViewObject
+  xmlns="http://xmlns.oracle.com/bc4j"
+  Name="SProductView"
+  Version="12.1.3.10.8"
+  InheritPersonalization="merge"
+  SelectListFlags="1"
+  FromListFlags="1"
+  WhereFlags="1"
+  BindingStyle="OracleName"
+  CustomQuery="false"
+  SelectAllAttributes="false"
+  PageIterMode="Full">
+  <EntityUsage
+    Name="SProduct"
+    Entity="pts.adf.summit.model.entities.SProduct"/>
+  <EntityUsage
+    Name="SImage"
+    Entity="pts.adf.summit.model.entities.SImage"
+    Association="pts.adf.summit.model.entities.assoc.SProductImageIdFkAssoc"
+    AssociationEnd="pts.adf.summit.model.entities.assoc.SProductImageIdFkAssoc.SImage"
+    SourceUsage="pts.adf.summit.model.views.SProductView.SProduct"
+    ReadOnly="true"
+    Reference="true"
+    DeleteParticipant="false"
+    JoinType="INNER JOIN">
+    <DesignTime>
+      <AttrArray Name="_srcAttributes">
+        <Item Value="pts.adf.summit.model.entities.SProduct.ImageId"/>
+      </AttrArray>
+      <AttrArray Name="_dstAttributes">
+        <Item Value="pts.adf.summit.model.entities.SImage.Id"/>
+      </AttrArray>
+    </DesignTime>
+  </EntityUsage>
+  <EntityUsage
+    Name="SLongtext"
+    Entity="pts.adf.summit.model.entities.SLongtext"
+    Association="pts.adf.summit.model.entities.assoc.SProductLongtextIdFkAssoc"
+    AssociationEnd="pts.adf.summit.model.entities.assoc.SProductLongtextIdFkAssoc.SLongtext"
+    SourceUsage="pts.adf.summit.model.views.SProductView.SProduct"
+    ReadOnly="true"
+    Reference="true"
+    DeleteParticipant="false"
+    JoinType="INNER JOIN">
+    <DesignTime>
+      <AttrArray Name="_srcAttributes">
+        <Item Value="pts.adf.summit.model.entities.SProduct.LongtextId"/>
+      </AttrArray>
+      <AttrArray Name="_dstAttributes">
+        <Item Value="pts.adf.summit.model.entities.SLongtext.Id"/>
+      </AttrArray>
+    </DesignTime>
+  </EntityUsage>
+  <ViewAttribute
+    Name="Id"
+    IsNotNull="true"
+    PrecisionRule="true"
+    EntityAttrName="Id"
+    EntityUsage="SProduct"
+    AliasName="ID"/>
+  <ViewAttribute
+    Name="Name"
+    IsUnique="true"
+    IsNotNull="true"
+    PrecisionRule="true"
+    EntityAttrName="Name"
+    EntityUsage="SProduct"
+    AliasName="NAME"/>
+  <ViewAttribute
+    Name="ShortDesc"
+    PrecisionRule="true"
+    EntityAttrName="ShortDesc"
+    EntityUsage="SProduct"
+    AliasName="SHORT_DESC"/>
+  <ViewAttribute
+    Name="LongtextId"
+    PrecisionRule="true"
+    EntityAttrName="LongtextId"
+    EntityUsage="SProduct"
+    AliasName="LONGTEXT_ID"/>
+  <ViewAttribute
+    Name="ImageId"
+    PrecisionRule="true"
+    EntityAttrName="ImageId"
+    EntityUsage="SProduct"
+    AliasName="IMAGE_ID"/>
+  <ViewAttribute
+    Name="CategoryId"
+    PrecisionRule="true"
+    EntityAttrName="CategoryId"
+    EntityUsage="SProduct"
+    AliasName="CATEGORY_ID"/>
+  <ViewAttribute
+    Name="SuggestedWhlslPrice"
+    PrecisionRule="true"
+    EntityAttrName="SuggestedWhlslPrice"
+    EntityUsage="SProduct"
+    AliasName="SUGGESTED_WHLSL_PRICE">
+    <Properties>
+      <SchemaBasedProperties>
+        <LABEL
+          ResId="pts.adf.summit.model.views.SProductView.SuggestedWhlslPrice_LABEL"/>
+        <FMT_FORMATTER
+          ResId="pts.adf.summit.model.views.SProductView.SuggestedWhlslPrice_FMT_FORMATTER"/>
+      </SchemaBasedProperties>
+    </Properties>
+  </ViewAttribute>
+  <ViewAttribute
+    Name="WhlslUnits"
+    PrecisionRule="true"
+    EntityAttrName="WhlslUnits"
+    EntityUsage="SProduct"
+    AliasName="WHLSL_UNITS"/>
+  <ViewAttribute
+    Name="ImageFilename"
+    PrecisionRule="true"
+    EntityAttrName="Filename"
+    EntityUsage="SImage"
+    AliasName="FILENAME"/>
+  <ViewAttribute
+    Name="Id1"
+    IsNotNull="true"
+    PrecisionRule="true"
+    EntityAttrName="Id"
+    EntityUsage="SImage"
+    AliasName="ID1"/>
+  <ViewAttribute
+    Name="Text"
+    PrecisionRule="true"
+    EntityAttrName="Text"
+    EntityUsage="SLongtext"
+    AliasName="TEXT"/>
+  <ViewAttribute
+    Name="Id2"
+    IsNotNull="true"
+    PrecisionRule="true"
+    EntityAttrName="Id"
+    EntityUsage="SLongtext"
+    AliasName="ID2"/>
+  <AttrArray Name="KeyAttributes">
+    <Item Value="Id"/>
+  </AttrArray>
+  <ViewLinkAccessor
+    Name="SItemView"
+    ViewLink="pts.adf.summit.model.views.links.SItemProductIdFkLink"
+    Type="oracle.jbo.RowIterator"
+    IsUpdateable="false"/>
+  <ViewLinkAccessor
+    Name="SInventoryView"
+    ViewLink="pts.adf.summit.model.views.links.SInventoryProductIdFkLink"
+    Type="oracle.jbo.RowIterator"
+    IsUpdateable="false"/>
+  <SortCriteria>
+    <Sort
+      Attribute="Name"/>
+  </SortCriteria>
+  <ResourceBundle>
+    <PropertiesBundle
+      PropertiesFile="pts.adf.summit.model.ModelBundle"/>
+  </ResourceBundle>
+</ViewObject>

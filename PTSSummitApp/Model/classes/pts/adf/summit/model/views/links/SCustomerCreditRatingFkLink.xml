@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<!DOCTYPE ViewLink SYSTEM "jbo_03_01.dtd">
+<!---->
+<ViewLink
+  xmlns="http://xmlns.oracle.com/bc4j"
+  Name="SCustomerCreditRatingFkLink"
+  Version="12.1.3.10.8"
+  InheritPersonalization="merge"
+  EntityAssociation="pts.adf.summit.model.entities.assoc.SCustomerCreditRatingFkAssoc">
+  <ViewLinkDefEnd
+    Name="SCreditRatingView"
+    Cardinality="1"
+    Source="true"
+    Owner="pts.adf.summit.model.views.SCreditRatingView">
+    <DesignTime>
+      <Attr Name="_finderName" Value="SCreditRatingView"/>
+      <Attr Name="_isUpdateable" Value="true"/>
+    </DesignTime>
+    <AttrArray Name="Attributes">
+      <Item Value="pts.adf.summit.model.views.SCreditRatingView.Id"/>
+    </AttrArray>
+  </ViewLinkDefEnd>
+  <ViewLinkDefEnd
+    Name="SCustomerView"
+    Cardinality="-1"
+    Owner="pts.adf.summit.model.views.SCustomerView">
+    <DesignTime>
+      <Attr Name="_finderName" Value="SCustomerView"/>
+      <Attr Name="_isUpdateable" Value="true"/>
+    </DesignTime>
+    <AttrArray Name="Attributes">
+      <Item Value="pts.adf.summit.model.views.SCustomerView.CreditRatingId"/>
+    </AttrArray>
+  </ViewLinkDefEnd>
+</ViewLink>

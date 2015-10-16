@@ -1,0 +1,11 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<BC4JConfig version="11.1" xmlns="http://xmlns.oracle.com/bc4j/configuration">
+   <AppModuleConfigBag ApplicationName="pts.adf.summit.model.service.PTSSummitAppModule">
+      <AppModuleConfig name="1506A7232BE" IsLazyLoadingTrue="true" DBconnection="java:comp/env/jdbc/summit_adfDS" ApplicationName="pts.adf.summit.model.service.PTSSummitAppModule" jbo.project="pts.adf.summit.model.Model" BC4JConfigName="PTSSummitAppModuleLocal" java.naming.factory.initial="oracle.jbo.common.JboInitialContextFactory" DeployPlatform="LOCAL" JDBCName="summit_adf">
+         <Database jbo.SQLBuilder="Oracle" jbo.TypeMapEntries="OracleApps" jbo.locking.mode="optimistic"/>
+         <Security AppModuleJndiName="pts.adf.summit.model.service.PTSSummitAppModule"/>
+         <Tester FullProxyInterfaceName="pts.adf.summit.model.service.common.PTSSummitAppModule"/>
+         <Custom ns0:LastUsedConfiguration="PTSSummitAppModuleLocal" ns0:ns0="http://xmlns.oracle.com/bc4j/configuration" ns0:JDBCDataSource="java:comp/env/jdbc/summit_adfDS" ns0:_testers_credentials_needed="false" xmlns:ns0="http://xmlns.oracle.com/bc4j/configuration"/>
+      </AppModuleConfig>
+   </AppModuleConfigBag>
+</BC4JConfig>
